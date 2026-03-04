@@ -47,9 +47,10 @@ const PLANS = [
 
 interface Props {
   onSuccess?: () => void;
+  onBack?: () => void;
 }
 
-export default function PaywallScreen({ onSuccess }: Props) {
+export default function PaywallScreen({ onSuccess, onBack }: Props) {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -88,6 +89,17 @@ export default function PaywallScreen({ onSuccess }: Props) {
       <View style={[styles.blob, styles.blob2]} />
 
       <SafeAreaView style={styles.safe}>
+        {/* Back button */}
+        {onBack && (
+          <TouchableOpacity
+            style={styles.backBtn}
+            onPress={onBack}
+            testID="back-button"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Text style={styles.backBtnText}>← Назад</Text>
+          </TouchableOpacity>
+        )}
         <ScrollView
           contentContainerStyle={styles.scroll}
           showsVerticalScrollIndicator={false}
@@ -108,8 +120,7 @@ export default function PaywallScreen({ onSuccess }: Props) {
           <View style={styles.benefitsCard}>
             <LinearGradient
               colors={['rgba(108,99,255,0.15)', 'rgba(78,205,196,0.08)']}
-              style={StyleSheet.absoluteFill}
-              borderRadius={24}
+              style={[StyleSheet.absoluteFill, { borderRadius: 24 }]}
             />
             {BENEFITS.map((b, i) => (
               <View key={i} style={[styles.benefitRow, i < BENEFITS.length - 1 && styles.benefitBorder]}>
@@ -223,8 +234,7 @@ export default function PaywallScreen({ onSuccess }: Props) {
         <View style={styles.modalOverlay}>
           <LinearGradient
             colors={['#1A1040', '#0D2A1A']}
-            style={styles.modalCard}
-            borderRadius={28}
+            style={[styles.modalCard, { borderRadius: 28 }]}
           >
             <Text style={styles.modalEmoji}>🎉</Text>
             <Text style={styles.modalTitle}>Добро пожаловать{'\n'}в Premium!</Text>
@@ -255,6 +265,10 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#0A0A1A' },
   safe: { flex: 1 },
   scroll: { paddingBottom: 40 },
+
+  // Back button
+  backBtn: { paddingHorizontal: 20, paddingVertical: 10 },
+  backBtnText: { color: '#A09DB8', fontSize: 15, fontWeight: '500' },
 
   blob: { position: 'absolute', borderRadius: 999 },
   blob1: { width: 300, height: 300, backgroundColor: 'rgba(108,99,255,0.18)', top: -80, right: -80 },
