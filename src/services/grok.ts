@@ -48,7 +48,7 @@ const MOOD_PROMPTS: Record<Mood, string> = {
 };
 
 const HF_CHAT_URL = 'https://router.huggingface.co/v1/chat/completions';
-const HF_CHAT_MODEL = 'zai-org/GLM-5:zai-org';
+const HF_CHAT_MODEL = 'Qwen/Qwen2.5-72B-Instruct';
 
 export interface GrokResult {
   text: string;
@@ -57,7 +57,7 @@ export interface GrokResult {
 
 export async function generateMoodAffirmation(mood: Mood): Promise<GrokResult> {
   const apiKey = process.env.EXPO_PUBLIC_HF_API_KEY;
-
+console.log(apiKey)
   if (!apiKey || apiKey === 'your_hf_key_here') {
     return {
       text: '',
@@ -91,7 +91,7 @@ export async function generateMoodAffirmation(mood: Mood): Promise<GrokResult> {
         stream: false,
       }),
     });
-
+console.log(response);
     if (!response.ok) {
       const errBody = await response.text();
       return {
