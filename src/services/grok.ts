@@ -57,7 +57,7 @@ export interface GrokResult {
 
 export async function generateMoodAffirmation(mood: Mood): Promise<GrokResult> {
   const apiKey = process.env.EXPO_PUBLIC_HF_API_KEY;
-console.log(apiKey)
+
   if (!apiKey || apiKey === 'your_hf_key_here') {
     return {
       text: '',
@@ -72,6 +72,7 @@ console.log(apiKey)
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: HF_CHAT_MODEL,
