@@ -18,6 +18,7 @@ const CARD_WIDTH = (width - 48) / 2;
 
 interface Props {
   onOpenPaywall: () => void;
+  onOpenAIMood: () => void;
 }
 
 function formatPlays(n: number): string {
@@ -101,7 +102,7 @@ function SessionCard({
   );
 }
 
-export default function MeditationsScreen({ onOpenPaywall }: Props) {
+export default function MeditationsScreen({ onOpenPaywall, onOpenAIMood }: Props) {
   const { isPremium } = useSubscription();
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
 
@@ -168,6 +169,30 @@ export default function MeditationsScreen({ onOpenPaywall }: Props) {
             </TouchableOpacity>
           )}
         </View>
+
+        {/* AI Mood banner */}
+        <TouchableOpacity
+          style={styles.aiBanner}
+          onPress={onOpenAIMood}
+          testID="ai-mood-button"
+          activeOpacity={0.85}
+        >
+          <LinearGradient
+            colors={['rgba(108,99,255,0.25)', 'rgba(78,205,196,0.15)']}
+            style={styles.aiBannerGrad}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <View style={styles.aiBannerLeft}>
+              <Text style={styles.aiBannerEmoji}>✨</Text>
+              <View>
+                <Text style={styles.aiBannerTitle}>AI Настрой дня</Text>
+                <Text style={styles.aiBannerSub}>Получи персональную аффирмацию</Text>
+              </View>
+            </View>
+            <Text style={styles.aiBannerArrow}>→</Text>
+          </LinearGradient>
+        </TouchableOpacity>
 
         {/* Stats bar */}
         {!isPremium && (
@@ -276,6 +301,28 @@ const styles = StyleSheet.create({
   unlockBtn: { borderRadius: 12, overflow: 'hidden' },
   unlockBtnGradient: { paddingHorizontal: 14, paddingVertical: 8 },
   unlockBtnText: { fontSize: 12, fontWeight: '700', color: '#FFF' },
+
+  // AI Mood banner
+  aiBanner: {
+    marginHorizontal: 20,
+    marginBottom: 14,
+    borderRadius: 16,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(108,99,255,0.3)',
+  },
+  aiBannerGrad: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 13,
+  },
+  aiBannerLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  aiBannerEmoji: { fontSize: 26 },
+  aiBannerTitle: { fontSize: 14, fontWeight: '700', color: '#E8E5FF', marginBottom: 2 },
+  aiBannerSub: { fontSize: 11, color: '#8B88B0' },
+  aiBannerArrow: { fontSize: 18, color: '#9D97FF', fontWeight: '700' },
 
   // Stats bar
   statsBar: {

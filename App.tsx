@@ -3,14 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import { SubscriptionProvider, useSubscription } from './src/context/SubscriptionContext';
 import MeditationsScreen from './src/screens/MeditationsScreen';
 import PaywallScreen from './src/screens/PaywallScreen';
+import AIMoodScreen from './src/screens/AIMoodScreen';
 
-type Screen = 'meditations' | 'paywall';
+type Screen = 'meditations' | 'paywall' | 'ai-mood';
 
 function AppNavigator() {
   const [screen, setScreen] = useState<Screen>('meditations');
   const { activatePremium } = useSubscription();
 
-  const handleSuccess = () => {
+  const handlePurchaseSuccess = () => {
     activatePremium();
     setScreen('meditations');
   };
@@ -18,15 +19,20 @@ function AppNavigator() {
   if (screen === 'paywall') {
     return (
       <PaywallScreen
-        onSuccess={handleSuccess}
+        onSuccess={handlePurchaseSuccess}
         onBack={() => setScreen('meditations')}
       />
     );
   }
 
+  if (screen === 'ai-mood') {
+    return <AIMoodScreen onBack={() => setScreen('meditations')} />;
+  }
+
   return (
     <MeditationsScreen
       onOpenPaywall={() => setScreen('paywall')}
+      onOpenAIMood={() => setScreen('ai-mood')}
     />
   );
 }

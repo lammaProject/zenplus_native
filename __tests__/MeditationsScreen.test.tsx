@@ -19,10 +19,13 @@ jest.mock('react-native-safe-area-context', () => {
   };
 });
 
-function renderWithProvider(onOpenPaywall = jest.fn()) {
+function renderWithProvider(
+  onOpenPaywall = jest.fn(),
+  onOpenAIMood = jest.fn(),
+) {
   return render(
     <SubscriptionProvider>
-      <MeditationsScreen onOpenPaywall={onOpenPaywall} />
+      <MeditationsScreen onOpenPaywall={onOpenPaywall} onOpenAIMood={onOpenAIMood} />
     </SubscriptionProvider>
   );
 }
