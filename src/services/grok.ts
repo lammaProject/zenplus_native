@@ -47,7 +47,8 @@ const MOOD_PROMPTS: Record<Mood, string> = {
 Начни с "Твоя энергия..." или "Сегодня ты способен...".`,
 };
 
-const GROK_API_URL = 'https://api.x.ai/v1/chat/completions';
+const HF_CHAT_URL = 'https://router.huggingface.co/v1/chat/completions';
+const HF_CHAT_MODEL = 'Qwen/Qwen2.5-72B-Instruct';
 
 export interface GrokResult {
   text: string;
@@ -55,26 +56,26 @@ export interface GrokResult {
 }
 
 export async function generateMoodAffirmation(mood: Mood): Promise<GrokResult> {
-  const apiKey = process.env.EXPO_PUBLIC_GROK_API_KEY;
+  const apiKey = process.env.EXPO_PUBLIC_HF_API_KEY;
 
-  if (!apiKey || apiKey === 'your_xai_key_here') {
+  if (!apiKey || apiKey === 'your_hf_key_here') {
     return {
       text: '',
-      error: 'API ключ не настроен. Добавь EXPO_PUBLIC_GROK_API_KEY в .env файл.',
+      error: 'API ключ не настроен. Добавь EXPO_PUBLIC_HF_API_KEY в .env файл.',
     };
   }
 
   const prompt = MOOD_PROMPTS[mood];
 
   try {
-    const response = await fetch(GROK_API_URL, {
+    const response = await fetch(HF_CHAT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'grok-3-mini',
+        model: HF_CHAT_MODEL,
         messages: [
           {
             role: 'system',
