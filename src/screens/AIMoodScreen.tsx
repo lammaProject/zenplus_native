@@ -420,8 +420,8 @@ const styles = StyleSheet.create({
   moodEmoji: { fontSize: 34, marginBottom: 8 },
   moodLabel: { fontSize: 13, fontWeight: '700', color: '#A09DB8', marginBottom: 4 },
   moodLabelSelected: { fontSize: 13, fontWeight: '700', color: '#FFF', marginBottom: 4 },
-  moodDesc: { fontSize: 10, color: '#5A5870', textAlign: 'center' },
-  moodDescSelected: { fontSize: 10, color: 'rgba(255,255,255,0.8)', textAlign: 'center' },
+  moodDesc: { fontSize: 10, color: '#5A5870', textAlign: 'center', minHeight: 28 },
+  moodDescSelected: { fontSize: 10, color: 'rgba(255,255,255,0.8)', textAlign: 'center', minHeight: 28 },
 
   // Generate button
   generateBtnWrap: { borderRadius: 18, overflow: 'hidden', marginBottom: 8 },

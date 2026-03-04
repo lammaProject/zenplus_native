@@ -135,123 +135,7 @@ export default function MeditationsScreen({ onOpenPaywall, onOpenAIMood }: Props
       <View style={[styles.blob, styles.blob2]} />
 
       <SafeAreaView style={styles.safe}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>Добро пожаловать 👋</Text>
-            <Text style={styles.title}>Медитации</Text>
-          </View>
-          {isPremium ? (
-            <View style={styles.premiumTag} testID="premium-tag">
-              <LinearGradient
-                colors={['#6C63FF', '#4ECDC4']}
-                style={styles.premiumTagGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Text style={styles.premiumTagText}>👑 Premium</Text>
-              </LinearGradient>
-            </View>
-          ) : (
-            <TouchableOpacity
-              style={styles.unlockBtn}
-              onPress={onOpenPaywall}
-              testID="unlock-button"
-            >
-              <LinearGradient
-                colors={['#6C63FF', '#4ECDC4']}
-                style={styles.unlockBtnGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Text style={styles.unlockBtnText}>Разблокировать</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {/* AI Mood banner */}
-        <TouchableOpacity
-          style={styles.aiBanner}
-          onPress={onOpenAIMood}
-          testID="ai-mood-button"
-          activeOpacity={0.85}
-        >
-          <LinearGradient
-            colors={['rgba(108,99,255,0.25)', 'rgba(78,205,196,0.15)']}
-            style={styles.aiBannerGrad}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <View style={styles.aiBannerLeft}>
-              <Text style={styles.aiBannerEmoji}>✨</Text>
-              <View>
-                <Text style={styles.aiBannerTitle}>AI Настрой дня</Text>
-                <Text style={styles.aiBannerSub}>Получи персональную аффирмацию</Text>
-              </View>
-            </View>
-            <Text style={styles.aiBannerArrow}>→</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        {/* Stats bar */}
-        {!isPremium && (
-          <View style={styles.statsBar} testID="stats-bar">
-            <View style={styles.statItem}>
-              <Text style={styles.statNum}>{freeCount}</Text>
-              <Text style={styles.statLabel}>Бесплатно</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={[styles.statNum, styles.statNumLocked]}>🔒 {premiumCount}</Text>
-              <Text style={styles.statLabel}>Premium</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Text style={styles.statNum}>{SESSIONS.length}</Text>
-              <Text style={styles.statLabel}>Всего</Text>
-            </View>
-          </View>
-        )}
-
-        {/* Category filter */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.categories}
-          contentContainerStyle={styles.categoriesContent}
-        >
-          {CATEGORIES.map(cat => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <TouchableOpacity
-                key={cat.id}
-                onPress={() => setActiveCategory(cat.id)}
-                testID={`category-${cat.id}`}
-                activeOpacity={0.8}
-              >
-                {isActive ? (
-                  <LinearGradient
-                    colors={['#6C63FF', '#4ECDC4']}
-                    style={styles.categoryPill}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                  >
-                    <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
-                    <Text style={styles.categoryLabelActive}>{cat.label}</Text>
-                  </LinearGradient>
-                ) : (
-                  <View style={styles.categoryPillInactive}>
-                    <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
-                    <Text style={styles.categoryLabel}>{cat.label}</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-
-        {/* Sessions grid */}
+        {/* Sessions grid with sticky header */}
         <FlatList
           data={filtered}
           keyExtractor={item => item.id}
@@ -266,6 +150,125 @@ export default function MeditationsScreen({ onOpenPaywall, onOpenAIMood }: Props
               onPress={() => handleCardPress(item)}
             />
           )}
+          ListHeaderComponent={
+            <>
+              {/* Header */}
+              <View style={styles.header}>
+                <View>
+                  <Text style={styles.greeting}>Добро пожаловать 👋</Text>
+                  <Text style={styles.title}>Медитации</Text>
+                </View>
+                {isPremium ? (
+                  <View style={styles.premiumTag} testID="premium-tag">
+                    <LinearGradient
+                      colors={['#6C63FF', '#4ECDC4']}
+                      style={styles.premiumTagGradient}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                    >
+                      <Text style={styles.premiumTagText}>👑 Premium</Text>
+                    </LinearGradient>
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.unlockBtn}
+                    onPress={onOpenPaywall}
+                    testID="unlock-button"
+                  >
+                    <LinearGradient
+                      colors={['#6C63FF', '#4ECDC4']}
+                      style={styles.unlockBtnGradient}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                    >
+                      <Text style={styles.unlockBtnText}>Разблокировать</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              {/* AI Mood banner */}
+              <TouchableOpacity
+                style={styles.aiBanner}
+                onPress={onOpenAIMood}
+                testID="ai-mood-button"
+                activeOpacity={0.85}
+              >
+                <LinearGradient
+                  colors={['rgba(108,99,255,0.25)', 'rgba(78,205,196,0.15)']}
+                  style={styles.aiBannerGrad}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <View style={styles.aiBannerLeft}>
+                    <Text style={styles.aiBannerEmoji}>✨</Text>
+                    <View>
+                      <Text style={styles.aiBannerTitle}>AI Настрой дня</Text>
+                      <Text style={styles.aiBannerSub}>Получи персональную аффирмацию</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.aiBannerArrow}>→</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              {/* Stats bar */}
+              {!isPremium && (
+                <View style={styles.statsBar} testID="stats-bar">
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNum}>{freeCount}</Text>
+                    <Text style={styles.statLabel}>Бесплатно</Text>
+                  </View>
+                  <View style={styles.statDivider} />
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNum}>{premiumCount}</Text>
+                    <Text style={styles.statLabel}>🔒 Premium</Text>
+                  </View>
+                  <View style={styles.statDivider} />
+                  <View style={styles.statItem}>
+                    <Text style={styles.statNum}>{SESSIONS.length}</Text>
+                    <Text style={styles.statLabel}>Всего</Text>
+                  </View>
+                </View>
+              )}
+
+              {/* Category filter */}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.categories}
+                contentContainerStyle={styles.categoriesContent}
+              >
+                {CATEGORIES.map(cat => {
+                  const isActive = activeCategory === cat.id;
+                  return (
+                    <TouchableOpacity
+                      key={cat.id}
+                      onPress={() => setActiveCategory(cat.id)}
+                      testID={`category-${cat.id}`}
+                      activeOpacity={0.8}
+                    >
+                      {isActive ? (
+                        <LinearGradient
+                          colors={['#6C63FF', '#4ECDC4']}
+                          style={styles.categoryPill}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                        >
+                          <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
+                          <Text style={styles.categoryLabelActive}>{cat.label}</Text>
+                        </LinearGradient>
+                      ) : (
+                        <View style={styles.categoryPillInactive}>
+                          <Text style={styles.categoryEmoji}>{cat.emoji}</Text>
+                          <Text style={styles.categoryLabel}>{cat.label}</Text>
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </>
+          }
           ListEmptyComponent={
             <View style={styles.empty}>
               <Text style={styles.emptyText}>Нет сессий в этой категории</Text>
@@ -335,14 +338,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
   },
-  statItem: { flex: 1, alignItems: 'center' },
+  statItem: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   statNum: { fontSize: 18, fontWeight: '800', color: '#F0EEFF', marginBottom: 2 },
-  statNumLocked: { fontSize: 14 },
+  statNumLocked: { color: '#8B7FCC' },
   statLabel: { fontSize: 11, color: '#605C7A' },
-  statDivider: { width: 1, backgroundColor: 'rgba(255,255,255,0.08)' },
+  statDivider: { width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(255,255,255,0.08)' },
 
   // Categories
-  categories: { maxHeight: 48, marginBottom: 16 },
+  categories: { marginBottom: 16 },
   categoriesContent: { paddingHorizontal: 20, gap: 8 },
   categoryPill: {
     flexDirection: 'row',

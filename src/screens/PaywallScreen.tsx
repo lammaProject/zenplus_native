@@ -165,10 +165,12 @@ export default function PaywallScreen({ onSuccess, onBack }: Props) {
                     }
                     style={[styles.planCard, isSelected && styles.planCardSelected]}
                   >
-                    {plan.badge && (
+                    {plan.badge ? (
                       <View style={styles.badge}>
                         <Text style={styles.badgeText}>{plan.badge}</Text>
                       </View>
+                    ) : (
+                      <View style={styles.badgePlaceholder} />
                     )}
                     <Text style={styles.planDescription}>{plan.description}</Text>
                     <Text style={[styles.planLabel, isSelected && styles.planLabelSelected]}>
@@ -320,6 +322,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700', borderRadius: 8,
     paddingHorizontal: 8, paddingVertical: 3, marginBottom: 8,
   },
+  badgePlaceholder: { height: 22, marginBottom: 8 },
   badgeText: { fontSize: 10, fontWeight: '800', color: '#1A1A1A', letterSpacing: 0.5 },
   planDescription: { fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 4, textAlign: 'center' },
   planLabel: { fontSize: 14, fontWeight: '700', color: '#A09DB8', marginBottom: 8 },

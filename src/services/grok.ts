@@ -92,7 +92,7 @@ export async function generateMoodAffirmation(mood: Mood): Promise<GrokResult> {
         stream: false,
       }),
     });
-console.log(response);
+
     if (!response.ok) {
       const errBody = await response.text();
       return {
